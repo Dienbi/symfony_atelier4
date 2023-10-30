@@ -8,6 +8,8 @@ use App\Repository\AuthorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -84,5 +86,37 @@ class AuthorController extends AbstractController
     $em->flush();
     return new Response('removed');
     }
+    #[Route('/list', name: 'list')]
 
+    public function list(AuthorRepository $repo, ManagerRegistry $mr): Response
+{
+    $authors = $repo->listAuthorByEmail();
+    return $this->render('author/list.html.twig', ['author' => $authors]);
+}
+#[Route('/search', name:'search')]
+public function searchAuthorsByBookCountAction(Request $request, AuthorRepository $authorRepository)
+{
+    $form = $this->createFormBuilder()
+        ->add('minBooks', IntegerType::class, ['required' => false, 'label' => 'Minimum Books'])
+        ->add('maxBooks', IntegerType::class, ['required' => false, 'label' => 'Maximum Books'])
+        ->add('search', SubmitType::class, ['label' => 'Search'])
+        ->getForm();
+
+    $form->handleRequest($request);
+
+    $authors = [];
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $data = $form->getData();
+        $minBooks = $data['minBooks'];
+        $maxBooks = $data['maxBooks'];
+
+        $authors = $authorRepository->findAuthorsByBookCountRange($minBooks, $maxBooks);
     }
+
+    return $this->render('author/search.html.twig', [
+        'form' => $form->createView(),
+        'authors' => $authors,
+    ]);
+    }
+}

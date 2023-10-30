@@ -102,4 +102,67 @@ public function showB(BookRepository $repo,$ref,ManagerRegistry $mr): Response
 }
 return $this->render('book/show.html.twig', ['b' => $b]); 
 }
+#[Route('/listB', name: 'listB')]
+
+public function listB(Request $request, BookRepository $bookRepository)
+{
+    $searchQuery = $request->query->get('search');
+    $searchedBook = null;
+
+    if ($searchQuery) {
+        $searchedBook = $bookRepository->findOneByRef($searchQuery);
+    }
+
+    return $this->render('book/list.html.twig', [
+        'searchedBook' => $searchedBook,
+    ]);
+}
+#[Route('/listByAuth', name: 'listB')]
+public function listBooksByAuthors(BookRepository $bookRepository)
+{
+    $books = $bookRepository->booksListByAuthors();
+
+    return $this->render('book/list_by_auth.html.twig', [
+        'books' => $books,
+    ]);
+}
+#[Route('/list2023', name: 'list2023')]
+public function list2023(BookRepository $bookRepository)
+{
+    $books = $bookRepository->find2023();
+
+    return $this->render('book/list2023.html.twig', [
+        'books' => $books,
+    ]);
+}
+
+#[Route('/updateCategory', name: 'updateCategory')]
+public function updateCategory(BookRepository $bookRepository): Response
+{
+    $bookRepository->updateCategory();
+
+    return $this->redirectToRoute('AfficheB'); // Redirigez où vous le souhaitez après la mise à jour.
+}
+#[Route('/countBooksByCategory', name: 'countBooksByCategory')]
+public function countBooksByCategoryAction(BookRepository $bookRepository)
+{
+    $count = $bookRepository->countBooksByCategory('Romance');
+
+    return $this->render('book/count.html.twig', [
+        'count' => $count,
+    ]);
+}
+#[Route('/dates', name: 'dates')]
+public function dates(BookRepository $bookRepository)
+{
+    $startDate = new \DateTime('2014-01-01');
+    $endDate = new \DateTime('2018-12-31');
+
+    $books = $bookRepository->dates($startDate, $endDate);
+
+    return $this->render('book/dates.html.twig', [
+        'books' => $books,
+    ]);
+}
+
 }

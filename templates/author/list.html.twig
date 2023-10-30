@@ -1,0 +1,19 @@
+<h1>List authors BY EMAIL</h1>
+<table border="1">
+<tr>
+    <th>Username</th>
+    <th>Email</th>
+    <th>nb books</th>
+    <th>action</th>
+    
+</tr>
+
+      <tr>  {% for a in author %} </tr>
+        <td>{{ a.username }}</td>
+        <td> {{ a.email }}</td>
+        <td>nbbook</td>
+         
+        </tr>
+        {% endfor %}
+        </table>
+        <a href="{{path("addF")}}"> add author </a>

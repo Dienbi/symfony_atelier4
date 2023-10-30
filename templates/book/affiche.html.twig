@@ -1,4 +1,9 @@
 <h1>List Books</h1>
+<form action="{{ path('listB') }}" method="GET">
+    <label for="search">Search for a book by reference:</label>
+    <input type="text" name="search" id="search">
+    <button type="submit">Search</button>
+</form>
 <table border="1">
 <tr>
     <th>TITLE</th>
@@ -25,4 +30,5 @@
 </table>
 <p>number of published books {{numpub}}</p>
 <p>number of unpublished books {{numUnpub}}</p>
+
 <a href="{{ path('addb') }}">Add Book</a>

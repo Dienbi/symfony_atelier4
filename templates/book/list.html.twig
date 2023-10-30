@@ -1,0 +1,32 @@
+
+    <h1>Search Results</h1>
+
+    {% if searchedBook is not null %}
+        <h2>Book Found:</h2>
+        <table border="1">
+            <tr>
+                <th>TITLE</th>
+                <th>PUBLICATION DATE</th>
+                <th>CATEGORY</th>
+                <th>PUBLISHED</th>
+                <th>AUTHOR</th>
+                <th>ACTION</th>
+            </tr>
+            <tr>
+                <td>{{ searchedBook.title }}</td>
+                <td>{{ searchedBook.publicationdate | date('M-d-Y') }}</td>
+                <td>{{ searchedBook.category }}</td>
+                <td>{{ searchedBook.published ? 'Yes' : 'No' }}</td>
+                <td>{{ searchedBook.author.username }}</td>
+                <td>
+                    <a href="{{ path('updateB', {'ref': searchedBook.ref}) }}">Update</a>
+                    <a href="{{ path('removeB', {'ref': searchedBook.ref}) }}">Remove</a>
+                    <a href="{{ path('showB', {'ref': searchedBook.ref}) }}">Show</a>
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        <p>No book found for the given reference.</p>
+    {% endif %}
+    <a href="{{ path('addb') }}">Add Book</a>
+
