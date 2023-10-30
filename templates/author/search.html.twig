@@ -1,0 +1,21 @@
+{# Dans votre vue Twig (search_authors_by_book_count.html.twig) #}
+<h1>Search Authors by Book Count</h1>
+
+{{ form_start(form) }}
+{{ form_row(form.minBooks) }}
+{{ form_row(form.maxBooks) }}
+{{ form_row(form.search) }}
+{{ form_end(form) }}
+
+<table border="1">
+    <tr>
+        <th>Author Name</th>
+       
+    </tr>
+    {% for author in authors %}
+    <tr>
+        <td>{{ author.username }}</td>
+        
+    </tr>
+    {% endfor %}
+</table>

@@ -1,0 +1,15 @@
+<h1>List of Books Published Between Dates</h1>
+<table border="1">
+    <tr>
+        <th>BOOK TITLE</th>
+        <th>PUBLICATION DATE</th>
+        <th>CATEGORY</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.publicationdate | date('M-d-Y') }}</td>
+        <td>{{ book.category }}</td>
+    </tr>
+    {% endfor %}
+</table>

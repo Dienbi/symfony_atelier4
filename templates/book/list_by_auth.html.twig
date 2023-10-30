@@ -1,0 +1,27 @@
+<h1>List Books Sorted by Authors</h1>
+<table border="1">
+    <tr>
+        <th>TITLE</th>
+        <th>PUBLICATION DATE</th>
+        <th>CATEGORY</th>
+        <th>PUBLISHED</th>
+        <th>AUTHOR</th>
+        <th>ACTION</th>
+    </tr>
+
+    {% for book in books %}
+    <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.publicationdate | date('M-d-Y') }}</td>
+        <td>{{ book.category }}</td>
+        <td>{{ book.published ? 'Yes' : 'No' }}</td>
+        <td>{{ book.author.username }}</td>
+        <td>
+            <a href="{{ path('updateB', {'ref': book.ref}) }}">Update</a>
+            <a href="{{ path('removeB', {'ref': book.ref}) }}">Remove</a>
+            <a href="{{ path('showB', {'ref': book.ref}) }}">Show</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ path('addb') }}">Add Book</a>

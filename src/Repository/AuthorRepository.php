@@ -45,4 +45,40 @@ class AuthorRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function listAuthorByEmail()
+{
+    return $this->createQueryBuilder('a')//ORDER BY EMAIL
+        ->orderBy('a.email', 'ASC')
+        ->getQuery()
+        ->getResult();
 }
+    public function findAuthorsByCount($minBooks, $maxBooks)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        if ($minBooks !== null) {
+            $qb->andWhere($qb->expr()->gte('a.nb_books', $minBooks));
+        }
+
+        if ($maxBooks !== null) {
+            $qb->andWhere($qb->expr()->lte('a.nb_books', $maxBooks));
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+    public function findAuthorsByBookCountRange($minBooks, $maxBooks)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        if ($minBooks !== null) {
+            $qb->andWhere($qb->expr()->gte('a.nb_books', $minBooks));
+        }
+
+        if ($maxBooks !== null) {
+            $qb->andWhere($qb->expr()->lte('a.nb_books', $maxBooks));
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+}
+

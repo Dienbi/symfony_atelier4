@@ -1,0 +1,13 @@
+<h1>List of Published BEFORE 2023 </h1>
+<table border="1">
+    <tr>
+        <th>BOOK TITLE</th>
+        <th>AUTHOR</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author.username }}</td>
+    </tr>
+    {% endfor %}
+</table>
